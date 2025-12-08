@@ -1104,6 +1104,7 @@ GameObject:
   - component: {fileID: 1403497316}
   - component: {fileID: 1403497315}
   - component: {fileID: 1403497314}
+  - component: {fileID: 1403497318}
   m_Layer: 5
   m_Name: Turn System Canvas
   m_TagString: Untagged
@@ -1199,6 +1200,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1403497318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403497313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc62a1d6774d834ab11fc59993c3b8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnStateText: {fileID: 1023475496}
+  turnEndButton: {fileID: 1529407093}
 --- !u!1 &1429545902
 GameObject:
   m_ObjectHideFlags: 0
