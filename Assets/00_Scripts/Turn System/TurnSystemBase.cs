@@ -10,18 +10,32 @@ using UnityEngine.UI;
 // 최근 수정 일자 : 12/08
 // ==================================================================
 
+/// <summary>
+/// 턴 상태 머신이 사용하는 데이터 및 UI 참조를 보유한 컨텍스트.
+/// Domain 로직과 Presentation(UI)을 연결하는 역할을 수행한다.
+/// </summary>
 public class TurnContext
 {
+    /// <summary>현재 턴 상태를 표시하는 텍스트 UI.</summary>
     public TMP_Text turnStateText;
+
+    /// <summary>플레이어 턴 종료 버튼.</summary>
     public Button turnEndButton;
 }
 
+/// <summary>
+/// 모든 턴 상태의 공통 기반 클래스.
+/// 상태 진입, 종료, 업데이트(Tick), 버튼 입력 처리 메서드를 제공한다.
+/// </summary>
 public abstract class TurnStateBase
 {
+    // 상태에서 사용할 컨텍스트(UI, 데이터).
     protected TurnContext ctx;
+
+    // 상태 간 전환을 담당하는 상태 머신.
     protected TurnStateMachine machine;
 
-    // 생성자
+    // 기본 생성자
     protected TurnStateBase(TurnContext ctx, TurnStateMachine machine)
     {
         this.ctx = ctx;
@@ -37,12 +51,18 @@ public abstract class TurnStateBase
     public virtual void OnTurnEndButtonPressed() { }
 }
 
-// 턴 상태 머신 클래스
+/// <summary>
+/// 턴 상태들을 관리하고 전환을 제어하는 상태 머신.
+/// CurrentState를 중심으로 Enter/Exit/Tick 흐름을 유지한다.
+/// </summary>
 public class TurnStateMachine
 {
+    // 현재 활성 상태
     public TurnStateBase CurrentState { get; private set; }
 
-    // 현재 턴 상태 변경
+    /// <summary>
+    /// 상태 전환을 수행하며 이전 상태 Exit → 새 상태 Enter 순으로 호출한다.
+    /// </summary>
     public void ChangeState(TurnStateBase next)
     {
         CurrentState?.Exit();
@@ -56,7 +76,9 @@ public class TurnStateMachine
         CurrentState?.Tick();
     }
 
-    // 턴 종료 버튼이 눌렸을 때 호출되는 메서드
+    /// <summary>
+    /// UI 입력(턴 종료 버튼)을 현재 상태에 전달한다.
+    /// </summary>
     public void OnTurnEndButtonPressed()
     {
         CurrentState?.OnTurnEndButtonPressed();

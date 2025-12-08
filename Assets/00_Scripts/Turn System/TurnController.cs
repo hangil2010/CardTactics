@@ -8,6 +8,10 @@ using UnityEngine.UI;
 // 최근 수정 일자 : 12/08
 // ==================================================================
 
+/// <summary>
+/// UI 버튼과 텍스트를 통해 턴 상태 머신과 상호작용하는 컨트롤러.
+/// 프레젠테이션 레이어에서 Domain의 턴 로직을 호출한다.
+/// </summary>
 public class TurnController : MonoBehaviour
 {
     [Header("UI References")]
@@ -17,6 +21,9 @@ public class TurnController : MonoBehaviour
     private TurnStateMachine _machine;
     private TurnContext _context;
 
+    /// <summary>
+    /// UI 참조를 TurnContext에 할당하고 버튼 이벤트를 등록한다.
+    /// </summary>
     private void Awake()
     {
         _context = new TurnContext
@@ -31,17 +38,26 @@ public class TurnController : MonoBehaviour
         turnEndButton.onClick.AddListener(OnTurnEndButtonClicked);
     }
 
+    /// <summary>
+    /// 게임 시작 시 플레이어 턴을 최초 진입 상태로 설정한다.
+    /// </summary>
     private void Start()
     {
         //게임 시작 시 플레이어 턴부터 시작
         _machine.ChangeState(new PlayerTurnStartState(_context, _machine));
     }
 
+    /// <summary>
+    /// 매 프레임 상태 머신 Tick을 호출한다.
+    /// </summary>
     private void Update()
     {
         _machine.Tick();
     }
 
+    /// <summary>
+    /// 플레이어의 '턴 종료' 버튼 입력을 현재 상태에 전달한다.
+    /// </summary>
     private void OnTurnEndButtonClicked()
     {
         _machine.OnTurnEndButtonPressed();
