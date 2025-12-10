@@ -15,6 +15,9 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
     [SerializeField] private SelectedAreaManager manager;
     [SerializeField] private Image slotImage;
 
+    // [25/12/10] 수정: 슬롯 자체에서도 카드 이름/효과를 표시하기 위해 ActionCardView 추가
+    [SerializeField] private ActionCardView slotCardView;
+
     private bool _isSelected = false;
 
     // [25/12/10] 수정: 슬롯이 담고 있는 ActionCardData 저장 변수 추가
@@ -22,6 +25,15 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
 
     /// <summary>이 슬롯에 최종적으로 선택된 카드 데이터.</summary>
     public ActionCardData SelectedCard => _selectedCard;
+
+    private void Awake()
+    {
+        // [25/12/10] 수정: slotCardView가 비어 있으면 동일 오브젝트에서 자동으로 찾기
+        if (slotCardView == null)
+        {
+            slotCardView = GetComponent<ActionCardView>();
+        }
+    }
 
     /// <summary>
     /// 카드를 드롭했을 때 호출된다.
@@ -49,6 +61,12 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
 
             // 매니저에 카드 데이터 등록
             manager.RegisterSelectedCard(index, _selectedCard);
+
+            // [25/12/10] 수정: 슬롯 UI에 선택된 카드 데이터 표시
+            if (slotCardView != null)
+            {
+                slotCardView.SetData(_selectedCard);
+            }
 
             Debug.Log($"{gameObject.name} 슬롯 선택됨: {_selectedCard.CardName} (순번 {index + 1})");
         }
