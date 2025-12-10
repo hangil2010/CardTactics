@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 드래그된 카드를 드롭받아, 선택 영역에 색을 적용하는 슬롯
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/09
+// 최근 수정 일자 : 25/12/10
 // ==================================================================
 
 public class SelectedAreaSlot : MonoBehaviour, IDropHandler
@@ -17,22 +17,40 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
 
     private bool _isSelected = false;
 
+    // [25/12/10] 수정: 슬롯이 담고 있는 ActionCardData 저장 변수 추가
+    private ActionCardData _selectedCard;
+
+    /// <summary>이 슬롯에 최종적으로 선택된 카드 데이터.</summary>
+    public ActionCardData SelectedCard => _selectedCard;
+
     /// <summary>
     /// 카드를 드롭했을 때 호출된다.
     /// </summary>
     public void OnDrop(PointerEventData eventData)
     {
-        if (_isSelected) return; // 이미 선택된 슬롯이면 무시
+        if (_isSelected) return;
 
-        // 드롭된 오브젝트가 DraggableCard인지 확인
+        // [25/12/10] 수정: 드롭된 카드에서 ActionCardData를 가져오도록 변경
         var draggableCard = eventData.pointerDrag?.GetComponent<DraggableCard>();
         if (draggableCard == null) return;
 
-        // 선택 순서에 따라 색 적용 시도
-        if (manager.TryApplyNextColor(slotImage))
+        var cardData = draggableCard.CardData;
+        if (cardData == null)
+        {
+            Debug.LogWarning("[SelectedAreaSlot] 드롭된 카드에 ActionCardData가 없습니다.");
+            return;
+        }
+
+        // [25/12/10] 수정: 색 적용 후 선택 순서 index를 받아 카드 등록하도록 확장
+        if (manager.TryApplyNextColor(slotImage, out int index))
         {
             _isSelected = true;
-            Debug.Log($"{gameObject.name} 슬롯 선택됨");
+            _selectedCard = cardData;
+
+            // 매니저에 카드 데이터 등록
+            manager.RegisterSelectedCard(index, _selectedCard);
+
+            Debug.Log($"{gameObject.name} 슬롯 선택됨: {_selectedCard.CardName} (순번 {index + 1})");
         }
     }
 }
