@@ -937,6 +937,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1403497316}
+    - target: {fileID: 675976644617370997, guid: bb96aebad5e2e574197d9268082bab77,
+        type: 3}
+      propertyPath: cardAreaPanel
+      value: 
+      objectReference: {fileID: 470669605}
     - target: {fileID: 1217507484482961613, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
       propertyPath: canvas
@@ -945,7 +950,7 @@ PrefabInstance:
     - target: {fileID: 5489430288938038584, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
       propertyPath: m_Name
-      value: Defense Choice Card
+      value: Defense Action Card
       objectReference: {fileID: 0}
     - target: {fileID: 6208200565624855871, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
@@ -1883,6 +1888,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 1403497316}
+    - target: {fileID: 675976644617370997, guid: bb96aebad5e2e574197d9268082bab77,
+        type: 3}
+      propertyPath: cardAreaPanel
+      value: 
+      objectReference: {fileID: 470669605}
     - target: {fileID: 1217507484482961613, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
       propertyPath: canvas
@@ -1891,7 +1901,7 @@ PrefabInstance:
     - target: {fileID: 5489430288938038584, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
       propertyPath: m_Name
-      value: Attack Choice Card
+      value: Attack Action Card
       objectReference: {fileID: 0}
     - target: {fileID: 6208200565624855871, guid: bb96aebad5e2e574197d9268082bab77,
         type: 3}
