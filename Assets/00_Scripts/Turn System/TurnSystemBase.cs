@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/08
+// 최근 수정 일자 : 25/12/15
 // ==================================================================
 
 /// <summary>
@@ -16,11 +16,19 @@ using UnityEngine.UI;
 /// </summary>
 public class TurnContext
 {
-    /// <summary>현재 턴 상태를 표시하는 텍스트 UI.</summary>
+    /// <summary>현재 턴 상태를 표시하는 텍스트 UI. </summary>
     public TMP_Text turnStateText;
 
     /// <summary>플레이어 턴 종료 버튼.</summary>
     public Button turnEndButton;
+
+    // [25/12/15] 추가
+    /// <summary> 선택된 카드(플레이어) 조회용 </summary>
+    public SelectedAreaManager selectedAreaManager;
+
+    // [25/12/15] 추가
+    /// <summary> AI가 이번 사이클에서 사용할 행동(최대 3개)을 저장 </summary>
+    public ActionCardData[] aiPlannedCards;
 }
 
 /// <summary>
