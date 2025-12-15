@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : UI 입력과 상태 머신을 연결하여 턴 진행을 제어하는 프레젠테이션 레이어 컨트롤러
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/08
+// 최근 수정 일자 : 25/12/15
 // ==================================================================
 
 /// <summary>
@@ -17,6 +17,9 @@ public class TurnController : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TMP_Text turnStateText;
     [SerializeField] private Button turnEndButton;
+    [Header("Battle References")]
+    /// <summary> 플레이어가 선택한 카드 조회용 매니저 </summary>
+    [SerializeField] private SelectedAreaManager selectedAreaManager;
 
     private TurnStateMachine _machine;
     private TurnContext _context;
@@ -29,7 +32,11 @@ public class TurnController : MonoBehaviour
         _context = new TurnContext
         {
             turnStateText = turnStateText,
-            turnEndButton = turnEndButton
+            turnEndButton = turnEndButton,
+
+            // [25/12/15] 수정: 전투 사이클에서 사용할 참조 주입
+            selectedAreaManager = selectedAreaManager,
+            aiPlannedCards = new ActionCardData[3],
         };
 
         _machine = new TurnStateMachine();
