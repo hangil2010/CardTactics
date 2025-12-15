@@ -6,7 +6,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 캐릭터(플레이어, 적)의 상태 정보를 관리하는 클래스, Domain 영역
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/09
+// 최근 수정 일자 : 25/12/15
 // ==================================================================
 
 
@@ -25,5 +25,10 @@ public class CharactorData : MonoBehaviour
     public int GetHealth() { return health; }
     public void SetHealth(int value) { health = value; }
     
+    // 캐릭터 방어 상태 ( 방어 행동 카드 선택 여부 확인용 )
+    [SerializeField] private bool isGuarding;
+    public bool GetIsGuarding() { return isGuarding; }
+    public void SetIsGuarding(bool value) { isGuarding = value; }
+
     #endregion
 }

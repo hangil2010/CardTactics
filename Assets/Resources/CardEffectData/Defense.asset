@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe628be2a222f39469d006f8500e253e, type: 3}
-  m_Name: Attack
+  m_Script: {fileID: 11500000, guid: 8e68d77bd73f1654f81c830a89a90c2a, type: 3}
+  m_Name: Defense
   m_EditorClassIdentifier: 
-  cardName: Attack
-  actionType: 0
-  effectDescription: Deal 1 Damage
-  effectData: {fileID: 11400000, guid: d08a4616ce9ac1941a1073b5d8276ac9, type: 2}
+  effectName: Defense
+  effectType: 1
+  value: 1

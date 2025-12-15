@@ -21,6 +21,10 @@ public class TurnController : MonoBehaviour
     /// <summary> 플레이어가 선택한 카드 조회용 매니저 </summary>
     [SerializeField] private SelectedAreaManager selectedAreaManager;
 
+    // 25/12/15 추가 CharactorData 참조 주입
+    [SerializeField] private CharactorData playerCharactor;
+    [SerializeField] private CharactorData enemyCharactor;
+
     private TurnStateMachine _machine;
     private TurnContext _context;
 
@@ -29,6 +33,7 @@ public class TurnController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+
         _context = new TurnContext
         {
             turnStateText = turnStateText,
@@ -37,6 +42,10 @@ public class TurnController : MonoBehaviour
             // [25/12/15] 수정: 전투 사이클에서 사용할 참조 주입
             selectedAreaManager = selectedAreaManager,
             aiPlannedCards = new ActionCardData[3],
+
+            // [25/12/15] 수정: 효과 적용을 위한 유닛 데이터 주입
+            playerCharactor = playerCharactor,
+            enemyCharactor = enemyCharactor
         };
 
         _machine = new TurnStateMachine();

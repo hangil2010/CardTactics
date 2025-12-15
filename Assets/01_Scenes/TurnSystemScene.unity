@@ -405,6 +405,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 237151843}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &237151845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6747885452365104920, guid: 8dd9ae081a1f99646a95c75cd7748bb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 237151843}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bb1cac7b0cb1a41b828ee38d583167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &354212507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,6 +1439,8 @@ MonoBehaviour:
   turnStateText: {fileID: 1023475496}
   turnEndButton: {fileID: 1529407093}
   selectedAreaManager: {fileID: 1719622904}
+  playerCharactor: {fileID: 8352818616660207458}
+  enemyCharactor: {fileID: 237151845}
 --- !u!4 &1565185801
 Transform:
   m_ObjectHideFlags: 0
@@ -2349,6 +2363,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8352818616660207456}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8352818616660207458 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6747885452365104920, guid: 8dd9ae081a1f99646a95c75cd7748bb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8352818616660207456}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bb1cac7b0cb1a41b828ee38d583167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
