@@ -20,8 +20,8 @@ public class ActionCardEffectData : ScriptableObject
     /// </summary>
     public enum EffectType
     {
-        DealDamage,   // 대상에게 피해
-        Guard         // 방어 자세(다음 공격 1회 방어)
+        Attack,   // 대상에게 피해
+        Defense         // 방어 자세(다음 공격 1회 방어)
     }
 
     [Header("기본 정보")]

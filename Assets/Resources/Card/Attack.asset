@@ -15,3 +15,4 @@ MonoBehaviour:
   cardName: Attack
   actionType: 0
   effectDescription: Deal 1 Damage
+  effectData: {fileID: 11400000, guid: d08a4616ce9ac1941a1073b5d8276ac9, type: 2}

@@ -14,35 +14,31 @@ public static class ActionCardExecutor
     /// <summary>
     /// ActionCardData가 참조하는 CardEffectData를 기반으로 효과를 적용한다.
     /// </summary>
-    public static void Execute(ActionCardData card, BattleUnit self, BattleUnit target)
+    public static void Execute(ActionCardData card, CharactorData self, CharactorData target)
     {
         if (card == null || card.EffectData == null) return;
 
-        var effect = card.EffectData;
-
-        // 효과 타입에 따라 분기 처리
-        switch (effect.Type)
+        switch (card.EffectData.Type)
         {
-            // 공격 행동일 때
-            case ActionCardEffectData.EffectType.DealDamage:
-                ApplyDamage(target, effect.Value);
+            case ActionCardEffectData.EffectType.Attack:
+                ApplyDamage(target, card.EffectData.Value);
                 break;
-            // 방어 행동일 때
-            case ActionCardEffectData.EffectType.Guard:
-                self.IsGuarding = true;
+
+            case ActionCardEffectData.EffectType.Defense:
+                self.SetIsGuarding(true);
                 break;
         }
     }
 
-    private static void ApplyDamage(BattleUnit target, int damage)
+    private static void ApplyDamage(CharactorData target, int damage)
     {
-        if (target.IsGuarding)
+        if (target.GetIsGuarding())
         {
-            // 방어 자세로 1회 막기
-            target.IsGuarding = false;
+            target.SetIsGuarding(false); // 1회 막고 해제
             return;
         }
 
-        target.Hp = Mathf.Max(0, target.Hp - damage);
+        int nextHp = Mathf.Max(0, target.GetHealth() - damage);
+        target.SetHealth(nextHp);
     }
 }

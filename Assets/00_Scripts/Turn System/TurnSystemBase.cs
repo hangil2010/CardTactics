@@ -22,13 +22,17 @@ public class TurnContext
     /// <summary>플레이어 턴 종료 버튼.</summary>
     public Button turnEndButton;
 
-    // [25/12/15] 추가
+    // 25/12/15 추가
     /// <summary> 선택된 카드(플레이어) 조회용 </summary>
     public SelectedAreaManager selectedAreaManager;
 
-    // [25/12/15] 추가
+    // 25/12/15 추가
     /// <summary> AI가 이번 사이클에서 사용할 행동(최대 3개)을 저장 </summary>
     public ActionCardData[] aiPlannedCards;
+
+    // 25/12/15 추가, CharactorData 참조 사용
+    public CharactorData playerCharactor;
+    public CharactorData enemyCharactor;
 }
 
 /// <summary>
