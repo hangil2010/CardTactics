@@ -165,6 +165,11 @@ public class BattleLoopState : TurnStateBase
                     $"P_HP:{ctx.playerCharactor.GetHealth()}, P_Guard:{ctx.playerCharactor.GetIsGuarding()} / " +
                     $"E_HP:{ctx.enemyCharactor.GetHealth()}, E_Guard:{ctx.enemyCharactor.GetIsGuarding()}");
 
+            // [25/12/16] 추가 : 캐릭터 UI 업데이트를 여기에서 수행
+            // 전투 사이클 내에서 체력 변화가 있을 수 있으므로 매 사이클마다 UI를 갱신
+            ctx.playerCharactorUI.UpdateHealthUI();
+            ctx.enemyCharactorUI.UpdateHealthUI();
+
             if (IsBattleEnded())
             {
                 machine.ChangeState(new BattleEndState(ctx, machine));
