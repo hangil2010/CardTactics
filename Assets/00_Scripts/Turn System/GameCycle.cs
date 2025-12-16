@@ -233,6 +233,7 @@ public class AllCycleEndState : TurnStateBase
     public override void Enter()
     {
         Debug.Log("모든 사이클 완료");
+        ctx.selectedAreaManager.ResetSelection();
         Debug.Log("다음 턴 : 플레이어 턴 시작");
         machine.ChangeState(new PlayerTurnStartState(ctx, machine));
     }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 드래그된 카드를 드롭받아, 선택 영역에 색을 적용하는 슬롯
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/10
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 public class SelectedAreaSlot : MonoBehaviour, IDropHandler
@@ -70,5 +70,19 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
 
             Debug.Log($"{gameObject.name} 슬롯 선택됨: {_selectedCard.CardName} (순번 {index + 1})");
         }
+    }
+
+    // [25/12/16] 추가: 슬롯 초기화 기능 추가
+    /// <summary>
+    /// 해당 슬롯을 초기화
+    /// </summary>
+    public void ResetSlot()
+    {
+        _isSelected = false;
+        _selectedCard = null;
+
+        // 슬롯에 표시된 카드 UI도 비우기
+        if (slotCardView != null)
+            slotCardView.SetData(null);
     }
 }

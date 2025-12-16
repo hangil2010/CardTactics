@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : ScriptableObject 카드 데이터를 받아 UI에 카드 이름/효과를 표시하는 뷰, Presentation 영역
 // 생성 일자 : 25/12/10
-// 최근 수정 일자 : 25/12/10
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 public class ActionCardView : MonoBehaviour
@@ -29,8 +29,9 @@ public class ActionCardView : MonoBehaviour
 
         if (_data == null)
         {
-            cardNameText.text = "No Card";
-            effectDescriptionText.text = string.Empty;
+            // [25/12/16] 수정: 데이터가 없으면 카드 설명란에 "No Card" 표시
+            cardNameText.text = string.Empty;
+            effectDescriptionText.text = "No Card";
             return;
         }
 
