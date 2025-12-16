@@ -15,4 +15,4 @@ MonoBehaviour:
   cardName: Defense
   actionType: 1
   effectDescription: Block Enemy Attack
-  effectData: {fileID: 11400000, guid: bc21b96dfdddd574dbeafa494f6606c1, type: 2}
+  effectData: {fileID: 11400000, guid: 2ec8bd53636bc2d488b49e3fcb29416f, type: 2}

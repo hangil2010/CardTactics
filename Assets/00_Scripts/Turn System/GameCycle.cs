@@ -5,7 +5,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 플레이어 턴 시작/행동 결정/종료 및 AI 턴 진행 흐름을 관리하는 턴 상태 클래스 모음
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/15
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 
@@ -165,6 +165,11 @@ public class BattleLoopState : TurnStateBase
                     $"P_HP:{ctx.playerCharactor.GetHealth()}, P_Guard:{ctx.playerCharactor.GetIsGuarding()} / " +
                     $"E_HP:{ctx.enemyCharactor.GetHealth()}, E_Guard:{ctx.enemyCharactor.GetIsGuarding()}");
 
+            // [25/12/16] 추가 : 캐릭터 UI 업데이트를 여기에서 수행
+            // 전투 사이클 내에서 체력 변화가 있을 수 있으므로 매 사이클마다 UI를 갱신
+            ctx.playerCharactorUI.UpdateHealthUI();
+            ctx.enemyCharactorUI.UpdateHealthUI();
+
             if (IsBattleEnded())
             {
                 machine.ChangeState(new BattleEndState(ctx, machine));
@@ -173,7 +178,7 @@ public class BattleLoopState : TurnStateBase
         }
 
         Debug.Log("전투 사이클 종료");
-        machine.ChangeState(new AiTurnEndState(ctx, machine));
+        machine.ChangeState(new AllCycleEndState(ctx, machine));
     }
 
     private bool IsBattleEnded()
@@ -199,6 +204,10 @@ public class BattleEndState : TurnStateBase
         int pHp = ctx.playerCharactor.GetHealth();
         int eHp = ctx.enemyCharactor.GetHealth();
 
+        // [25/12/16] 추가 : 캐릭터 UI 업데이트를 여기에서 수행
+        ctx.playerCharactorUI.UpdateHealthUI();
+        ctx.enemyCharactorUI.UpdateHealthUI();
+
         string result =
             pHp <= 0 && eHp <= 0 ? "무승부" :
             pHp <= 0 ? "패배" :
@@ -206,21 +215,26 @@ public class BattleEndState : TurnStateBase
 
         Debug.Log($"전투 종료: {result}");
         // TODO: 결과 UI 표시 / 재시작 / 다음 씬 등
+
     }
 }
 #endregion
 
-#region AiTurnEndState
+#region AllCycleEndState
 /// <summary>
-/// AI 턴 종료 상태. 사이클 완료 후 플레이어 턴 시작으로 복귀한다.
+/// 모든 사이클 완료 상태. 사이클 완료 후 플레이어 턴 시작으로 복귀한다.
 /// </summary>
-public class AiTurnEndState : TurnStateBase
+// [25/12/16] 수정 : AiTurnEndState -> AllCycleEndState 로 이름 변경
+// AI의 턴 종료 상태를 굳이 하나의 사이클로 하기보다는, 모든 사이클이 종료됬을때로 상태를 변경
+public class AllCycleEndState : TurnStateBase
 {
-    public AiTurnEndState(TurnContext ctx, TurnStateMachine machine) : base(ctx, machine) { }
+    public AllCycleEndState(TurnContext ctx, TurnStateMachine machine) : base(ctx, machine) { }
 
     public override void Enter()
     {
-        Debug.Log("AI 턴 종료");
+        Debug.Log("모든 사이클 완료");
+        ctx.selectedAreaManager.ResetSelection();
+        Debug.Log("다음 턴 : 플레이어 턴 시작");
         machine.ChangeState(new PlayerTurnStartState(ctx, machine));
     }
 }

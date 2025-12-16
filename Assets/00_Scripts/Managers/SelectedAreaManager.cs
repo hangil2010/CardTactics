@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 // ==================================================================
 // 목적 : 선택 영역(3칸)을 관리하는 매니저, 카드 데이터가 없어 우선 선택 순서에 따라 색상(R,G,B)을 부여
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/10
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 public class SelectedAreaManager : MonoBehaviour
@@ -15,7 +16,7 @@ public class SelectedAreaManager : MonoBehaviour
     [SerializeField] private Color[] orderColors = { Color.red, Color.green, Color.blue };
     
     // [25/12/10] 수정: 선택된 카드 데이터를 저장하기 위한 배열 추가
-    private ActionCardData[] _selectedCards = new ActionCardData[3];
+    [SerializeField] private ActionCardData[] _selectedCards = new ActionCardData[3];
 
     /// <summary>선택된 카드 배열(ReadOnly).</summary>
     public IReadOnlyList<ActionCardData> SelectedCards => _selectedCards;
@@ -54,5 +55,32 @@ public class SelectedAreaManager : MonoBehaviour
         {
             Debug.Log($"[SelectedAreaManager] {index + 1}번째 선택 카드 등록: {cardData.CardName}");
         }
+    }
+
+    // [25/12/16] 추가: 선택된 행동 카드 초기화 기능 추가
+    /// <summary>
+    /// 선택 영역을 초기화한다.
+    /// </summary>
+    public void ResetSelection()
+    {
+        _currentIndex = 0;
+
+        // 선택된 카드 데이터 초기화
+        for (int i = 0; i < _selectedCards.Length; i++)
+            _selectedCards[i] = null;
+            
+        // 슬롯 이미지 초기화
+        for (int i = 0; i < selectedSlotImages.Length; i++)
+        {
+            var img = selectedSlotImages[i];
+            if (img == null) continue;
+
+            img.color = Color.white;
+
+            var slot = img.GetComponent<SelectedAreaSlot>();
+            if (slot != null)
+                slot.ResetSlot();
+        }
+        Debug.Log("[SelectedAreaManager] 선택 슬롯 초기화 완료");
     }
 }

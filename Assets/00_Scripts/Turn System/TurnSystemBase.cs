@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/15
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 /// <summary>
@@ -33,6 +33,10 @@ public class TurnContext
     // 25/12/15 추가, CharactorData 참조 사용
     public CharactorData playerCharactor;
     public CharactorData enemyCharactor;
+
+    // 25/12/16 추가 : CharactorController에서 UI 참조
+    public CharactorController playerCharactorUI;
+    public CharactorController enemyCharactorUI;
 }
 
 /// <summary>

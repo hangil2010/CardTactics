@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : UI 입력과 상태 머신을 연결하여 턴 진행을 제어하는 프레젠테이션 레이어 컨트롤러
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/15
+// 최근 수정 일자 : 25/12/16
 // ==================================================================
 
 /// <summary>
@@ -24,6 +24,11 @@ public class TurnController : MonoBehaviour
     // 25/12/15 추가 CharactorData 참조 주입
     [SerializeField] private CharactorData playerCharactor;
     [SerializeField] private CharactorData enemyCharactor;
+
+    // 25/12/16 추가 : CharactorController 참조 주입
+    [Header("Charactor UI References")]
+    [SerializeField] private CharactorController playerCharactorUI;
+    [SerializeField] private CharactorController enemyCharactorUI;
 
     private TurnStateMachine _machine;
     private TurnContext _context;
@@ -45,7 +50,11 @@ public class TurnController : MonoBehaviour
 
             // [25/12/15] 수정: 효과 적용을 위한 유닛 데이터 주입
             playerCharactor = playerCharactor,
-            enemyCharactor = enemyCharactor
+            enemyCharactor = enemyCharactor,
+
+            // [25/12/16] 추가 : 캐릭터 UI 주입
+            playerCharactorUI = playerCharactorUI,
+            enemyCharactorUI = enemyCharactorUI,
         };
 
         _machine = new TurnStateMachine();
