@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 선택 영역(3칸)을 관리하는 매니저, 카드 데이터가 없어 우선 선택 순서에 따라 색상(R,G,B)을 부여
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/16
+// 최근 수정 일자 : 25/12/17
 // ==================================================================
 
 public class SelectedAreaManager : MonoBehaviour
@@ -22,6 +22,12 @@ public class SelectedAreaManager : MonoBehaviour
     public IReadOnlyList<ActionCardData> SelectedCards => _selectedCards;
 
     private int _currentIndex = 0;
+
+    // 시작 시 선택 영역을 초기화한다.
+    private void Start()
+    {
+        ResetSelection();
+    }
 
     /// <summary>
     /// 아직 남은 색이 있다면 targetImage에 다음 색을 적용한다.

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : UI 입력과 상태 머신을 연결하여 턴 진행을 제어하는 프레젠테이션 레이어 컨트롤러
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/16
+// 최근 수정 일자 : 25/12/17
 // ==================================================================
 
 /// <summary>
@@ -14,6 +14,7 @@ using UnityEngine.UI;
 /// </summary>
 public class TurnController : MonoBehaviour
 {
+    #region Inspector Fields
     [Header("UI References")]
     [SerializeField] private TMP_Text turnStateText;
     [SerializeField] private Button turnEndButton;
@@ -30,6 +31,12 @@ public class TurnController : MonoBehaviour
     [SerializeField] private CharactorController playerCharactorUI;
     [SerializeField] private CharactorController enemyCharactorUI;
 
+    [Header("AI Weight Config")]
+    [SerializeField] private AIWeightData defaultAiWeights;
+    [SerializeField] private AIWeightOverrideProvider aiWeightOverride;
+
+    #endregion
+
     private TurnStateMachine _machine;
     private TurnContext _context;
 
@@ -38,6 +45,17 @@ public class TurnController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        // [25/12/17] 추가 기본 AI 가중치 로드
+        float atk = defaultAiWeights != null ? defaultAiWeights.attackWeight : 1f;
+        float def = defaultAiWeights != null ? defaultAiWeights.defenseWeight : 1f;
+
+        // [25/12/17] 오버라이드 컴포넌트가 활성화된 경우 가중치 덮어쓰기
+        if (aiWeightOverride != null && aiWeightOverride.useOverride)
+        {
+            atk = aiWeightOverride.attackWeight;
+            def = aiWeightOverride.defenseWeight;
+        }
+
 
         _context = new TurnContext
         {
@@ -55,12 +73,22 @@ public class TurnController : MonoBehaviour
             // [25/12/16] 추가 : 캐릭터 UI 주입
             playerCharactorUI = playerCharactorUI,
             enemyCharactorUI = enemyCharactorUI,
+
+            // [25/12/17] 추가 : AI 행동 가중치 주입
+            aiAttackWeight = atk,
+            aiDefenseWeight = def,
         };
 
         _machine = new TurnStateMachine();
 
         //버튼 이벤트 연결
         turnEndButton.onClick.AddListener(OnTurnEndButtonClicked);
+        // [25/12/17] 디버그용 가중치 출력
+        Debug.Log(
+        $"[AI Init] AttackWeight={_context.aiAttackWeight}, " +
+        $"DefenseWeight={_context.aiDefenseWeight}, " +
+        $"OverrideUsed={aiWeightOverride != null && aiWeightOverride.useOverride}"
+        );
     }
 
     /// <summary>

@@ -882,6 +882,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938465353}
   m_CullTransparentMesh: 1
+--- !u!1 &942760286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 942760288}
+  - component: {fileID: 942760287}
+  m_Layer: 0
+  m_Name: AI Weight Override Priovider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &942760287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942760286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68dbdd20359ea2948bd40e4a110ae708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useOverride: 1
+  attackWeight: 4
+  defenseWeight: 1
+--- !u!4 &942760288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942760286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 989.3936, y: 249.70956, z: -2.0784135}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1023475494
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +986,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Turn State Text
+  m_text: Turn State
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1455,6 +1502,8 @@ MonoBehaviour:
   enemyCharactor: {fileID: 237151845}
   playerCharactorUI: {fileID: 8352818616660207459}
   enemyCharactorUI: {fileID: 1239367056}
+  defaultAiWeights: {fileID: 11400000, guid: 34ca9129fead6d04aa9efa157bc0cd71, type: 2}
+  aiWeightOverride: {fileID: 942760287}
 --- !u!4 &1565185801
 Transform:
   m_ObjectHideFlags: 0
@@ -1784,13 +1833,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedSlotImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1833340516}
+  - {fileID: 1636563924}
+  - {fileID: 1069411955}
   orderColors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
+  _selectedCards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1766324048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2415,3 +2468,4 @@ SceneRoots:
   - {fileID: 1565185801}
   - {fileID: 667408193}
   - {fileID: 354212509}
+  - {fileID: 942760288}
