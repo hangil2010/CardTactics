@@ -44,6 +44,13 @@ public class TurnContext
 
     // 25/12/19 추가 : AI 회복 행동 가중치
     public float aiHealWeight;
+
+    // 25/12/19 추가 : 이번 전투 Cycle 동안 플레이어가 회복 카드, 공격카드를 사용했는지 여부
+    public bool playerUsedHealThisCycle;
+    public bool playerUsedAttackThisCycle;
+    // 25/12/19 추가 : 이번 전투 Cycle 동안 적이 회복 카드, 공격카드를 사용했는지 여부
+    public bool enemyUsedHealThisCycle;
+    public bool enemyUsedAttackThisCycle;
 }
 
 /// <summary>
