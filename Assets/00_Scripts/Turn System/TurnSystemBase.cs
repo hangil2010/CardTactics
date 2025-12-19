@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/17
+// 최근 수정 일자 : 25/12/19
 // ==================================================================
 
 /// <summary>
@@ -41,6 +41,9 @@ public class TurnContext
     // 25/12/17 추가 : AI 행동 가중치
     public float aiAttackWeight;
     public float aiDefenseWeight;
+
+    // 25/12/19 추가 : AI 회복 행동 가중치
+    public float aiHealWeight;
 }
 
 /// <summary>
