@@ -21,7 +21,7 @@ public static class ActionCardExecutor
         switch (card.EffectData.Type)
         {
             case ActionCardEffectData.EffectType.Attack:
-                ApplyDamage(target, card.EffectData.Value);
+                ApplyDamage(target, card.EffectData.AttackValue);
                 break;
 
             case ActionCardEffectData.EffectType.Defense:

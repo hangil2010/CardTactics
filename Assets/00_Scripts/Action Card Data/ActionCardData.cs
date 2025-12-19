@@ -5,7 +5,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 전투 행동 카드(공격, 방어)의 기본 정보를 ScriptableObject로 관리, Domain 영역
 // 생성 일자 : 25/12/10
-// 최근 수정 일자 : 25/12/15
+// 최근 수정 일자 : 25/12/19
 // ==================================================================
 // TODO : Resources 시스템 -> Addressable 시스템 전환하여 자원 관리 최적화 지표 수립
 [CreateAssetMenu( fileName = "NewActionCard", menuName = "Card/Action Card", order = 1)]
@@ -17,7 +17,9 @@ public class ActionCardData : ScriptableObject
     public enum ActionType
     {
         Attack,
-        Defense
+        Defense,
+        // [25/12/19] 추가 : 회복 행동 카드 추가
+        Heal
     }
 
     [Header("기본 정보")]

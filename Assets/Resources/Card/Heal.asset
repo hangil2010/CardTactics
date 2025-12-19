@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e68d77bd73f1654f81c830a89a90c2a, type: 3}
-  m_Name: Defense
+  m_Script: {fileID: 11500000, guid: fe628be2a222f39469d006f8500e253e, type: 3}
+  m_Name: Heal
   m_EditorClassIdentifier: 
-  effectName: Defense
-  effectType: 1
-  value: 1
+  cardName: Heal
+  actionType: 2
+  effectDescription: Gain 2 health. if attacked, lose 2 health
+  effectData: {fileID: 11400000, guid: 3ee3b2f2690994c4692657df4fcf499e, type: 2}
