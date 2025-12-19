@@ -3,7 +3,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 씬 단위에서 AI 행동 가중치를 임시로 덮어쓰기 위한 디버그/튜닝용 컴포넌트
 // 생성 일자 : 2025/12/17
-// 최근 수정 일자 : 2025/12/17
+// 최근 수정 일자 : 2025/12/19
 // ==================================================================
 
 /// <summary>
@@ -17,4 +17,6 @@ public class AIWeightOverrideProvider : MonoBehaviour
     [Header("Override Weights")]
     [Min(0f)] public float attackWeight = 1f;
     [Min(0f)] public float defenseWeight = 1f;
+    // [25/12/19] 추가 : 회복 행동 가중치
+    [Min(0f)] public float healWeight = 1f;
 }

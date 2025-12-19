@@ -14,18 +14,32 @@ public static class ActionCardExecutor
     /// <summary>
     /// ActionCardData가 참조하는 CardEffectData를 기반으로 효과를 적용한다.
     /// </summary>
-    public static void Execute(ActionCardData card, CharactorData self, CharactorData target)
+    // 25/12/19 수정 : 회복 카드 기록 추가 추가
+    public static void Execute(ActionCardData card, CharactorData self, CharactorData target, TurnContext ctx, bool isPlayer)
     {
         if (card == null || card.EffectData == null) return;
 
         switch (card.EffectData.Type)
         {
             case ActionCardEffectData.EffectType.Attack:
-                ApplyDamage(target, card.EffectData.Value);
+                ApplyDamage(target, card.EffectData.AttackValue);
+                if (ctx != null)
+                {
+                    if (isPlayer) ctx.playerUsedAttackThisCycle = true;
+                    else ctx.enemyUsedAttackThisCycle = true;
+                }
                 break;
 
             case ActionCardEffectData.EffectType.Defense:
                 self.SetIsGuarding(true);
+                break;
+
+            case ActionCardEffectData.EffectType.Heal:
+                if (ctx != null)
+                {
+                    if (isPlayer) ctx.playerUsedHealThisCycle = true;
+                    else ctx.enemyUsedHealThisCycle = true;
+                }
                 break;
         }
     }

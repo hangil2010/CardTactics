@@ -49,11 +49,16 @@ public class TurnController : MonoBehaviour
         float atk = defaultAiWeights != null ? defaultAiWeights.attackWeight : 1f;
         float def = defaultAiWeights != null ? defaultAiWeights.defenseWeight : 1f;
 
+        // [25/12/19] 추가 : 회복 가중치 로드
+        float heal = defaultAiWeights != null ? defaultAiWeights.healWeight : 1f;
+
         // [25/12/17] 오버라이드 컴포넌트가 활성화된 경우 가중치 덮어쓰기
         if (aiWeightOverride != null && aiWeightOverride.useOverride)
         {
             atk = aiWeightOverride.attackWeight;
             def = aiWeightOverride.defenseWeight;
+            // [25/12/19] 추가 : 회복 가중치 덮어쓰기
+            heal = aiWeightOverride.healWeight;
         }
 
 
@@ -77,6 +82,8 @@ public class TurnController : MonoBehaviour
             // [25/12/17] 추가 : AI 행동 가중치 주입
             aiAttackWeight = atk,
             aiDefenseWeight = def,
+            // [25/12/19] 추가 : AI 회복 행동 가중치 주입
+            aiHealWeight = heal,
         };
 
         _machine = new TurnStateMachine();
