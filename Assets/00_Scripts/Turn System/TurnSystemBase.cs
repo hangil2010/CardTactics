@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/19
+// 최근 수정 일자 : 25/12/20
 // ==================================================================
 
 /// <summary>
@@ -51,6 +51,9 @@ public class TurnContext
     // 25/12/19 추가 : 이번 전투 Cycle 동안 적이 회복 카드, 공격카드를 사용했는지 여부
     public bool enemyUsedHealThisCycle;
     public bool enemyUsedAttackThisCycle;
+
+    // 25/12/20 추가 : AI 의사 결정 횟수 추적
+    public int aiDecisionCount;
 }
 
 /// <summary>
