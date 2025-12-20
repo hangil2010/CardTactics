@@ -5,7 +5,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 플레이어 턴 시작/행동 결정/종료 및 AI 턴 진행 흐름을 관리하는 턴 상태 클래스 모음
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/19
+// 최근 수정 일자 : 25/12/20
 // ==================================================================
 
 
@@ -81,30 +81,14 @@ public class AiDecideState : TurnStateBase
 
     public override void Enter()
     {
-        /* 기존 더미 AI 로직( 오직 공격만 )
-        Debug.Log("AI 행동 결정 (즉시 결정)");
+        // [25/12/20] Behaior Tree 기반 AI 판단
+        var root = BehaviorTreeBuilder.Build();
+        root.Tick(ctx);
 
-        // [25/12/15] 추가: AI 플랜 배열이 없으면 생성 (최대 3개)
-        if (ctx.aiPlannedCards == null || ctx.aiPlannedCards.Length != 3)
-        {
-            ctx.aiPlannedCards = new ActionCardData[3];
-        }
-
-        // [25/12/15] 수정: 현재는 가장 단순한 더미 AI - 공격 카드 1장을 3회 사용하도록 구성
-        var mgr = ActionCardDataManager.Instance;
-        ActionCardData aiDefaultAttack = null;
-
-        if (mgr != null)
-        {
-            aiDefaultAttack = mgr.GetFirstCard(ActionCardData.ActionType.Attack);
-        }
-
-        ctx.aiPlannedCards[0] = aiDefaultAttack;
-        ctx.aiPlannedCards[1] = aiDefaultAttack;
-        ctx.aiPlannedCards[2] = aiDefaultAttack;
-        */
-        // [25/12/17] 수정: 가중치 기반 AI 행동 결정 로직으로 변경
-        Debug.Log("AI 행동 결정 (가중치 기반)");
+        Debug.Log(
+            $"[AI][Stage3] DecisionCount={ctx.aiDecisionCount} " +
+            $"Weights A/D/H = {ctx.aiAttackWeight}/{ctx.aiDefenseWeight}/{ctx.aiHealWeight}"
+        );
 
         AiPlanner.Plan3(ctx);
 

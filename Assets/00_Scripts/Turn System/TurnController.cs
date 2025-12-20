@@ -94,6 +94,7 @@ public class TurnController : MonoBehaviour
         Debug.Log(
         $"[AI Init] AttackWeight={_context.aiAttackWeight}, " +
         $"DefenseWeight={_context.aiDefenseWeight}, " +
+        $"HealWeight={_context.aiHealWeight}, " +
         $"OverrideUsed={aiWeightOverride != null && aiWeightOverride.useOverride}"
         );
     }
