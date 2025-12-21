@@ -5,7 +5,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 플레이어 턴 시작/행동 결정/종료 및 AI 턴 진행 흐름을 관리하는 턴 상태 클래스 모음
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/20
+// 최근 수정 일자 : 25/12/21
 // ==================================================================
 
 
@@ -136,6 +136,10 @@ public class BattleLoopState : TurnStateBase
             var pCard = (playerCards != null && i < playerCards.Count) ? playerCards[i] : null;
             Debug.Log($"[Cycle {i + 1}] Player 행동: {(pCard != null ? pCard.CardName : "None")}");
 
+            // [25/12/21] 슬롯별 기록 저장 (Player)
+            if (pCard != null && ctx.playRecord != null)
+                ctx.playRecord.RecordPlayer(i, pCard.Type);
+
             if (pCard != null)
                 ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor,ctx ,isPlayer : true);
 
@@ -152,6 +156,10 @@ public class BattleLoopState : TurnStateBase
             // ---------- AI Action ----------
             var aCard = (ctx.aiPlannedCards != null && i < ctx.aiPlannedCards.Length) ? ctx.aiPlannedCards[i] : null;
             Debug.Log($"[Cycle {i + 1}] AI 행동: {(aCard != null ? aCard.CardName : "None")}");
+
+            // [25/12/21] 슬롯별 기록 저장 (Enemy)
+            if (aCard != null && ctx.playRecord != null)
+                ctx.playRecord.RecordEnemy(i, aCard.Type);
 
             if (aCard != null)
                 ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor,ctx ,isPlayer : false);

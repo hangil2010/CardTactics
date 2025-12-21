@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : UI 입력과 상태 머신을 연결하여 턴 진행을 제어하는 프레젠테이션 레이어 컨트롤러
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/17
+// 최근 수정 일자 : 25/12/21
 // ==================================================================
 
 /// <summary>
@@ -34,6 +34,10 @@ public class TurnController : MonoBehaviour
     [Header("AI Weight Config")]
     [SerializeField] private AIWeightData defaultAiWeights;
     [SerializeField] private AIWeightOverrideProvider aiWeightOverride;
+
+    // 25/12/21 추가 : 플레이 기록 저장소 주입
+    [Header("Game Record")]
+    [SerializeField] private PlayRecord playRecord;
 
     #endregion
 
@@ -84,6 +88,9 @@ public class TurnController : MonoBehaviour
             aiDefenseWeight = def,
             // [25/12/19] 추가 : AI 회복 행동 가중치 주입
             aiHealWeight = heal,
+
+            // 25/12/21 추가 : 플레이 기록 저장소 주입
+            playRecord = playRecord,
         };
 
         _machine = new TurnStateMachine();
@@ -97,6 +104,14 @@ public class TurnController : MonoBehaviour
         $"HealWeight={_context.aiHealWeight}, " +
         $"OverrideUsed={aiWeightOverride != null && aiWeightOverride.useOverride}"
         );
+
+        // [25/12/21] 추가 : 슬롯별 가중치 배열 초기화
+        for (int i = 0; i < 3; i++)
+        {
+            _context.aiAttackWeightsBySlot[i] = _context.aiAttackWeight;
+            _context.aiDefenseWeightsBySlot[i] = _context.aiDefenseWeight;
+            _context.aiHealWeightsBySlot[i] = _context.aiHealWeight;
+        }
     }
 
     /// <summary>
