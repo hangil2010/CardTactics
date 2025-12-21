@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/20
+// 최근 수정 일자 : 25/12/21
 // ==================================================================
 
 /// <summary>
@@ -54,6 +54,36 @@ public class TurnContext
 
     // 25/12/20 추가 : AI 의사 결정 횟수 추적
     public int aiDecisionCount;
+
+    // 25/12/21 추가 : 슬롯별 AI 행동 가중치 ( Stage 4 AI에서 사용 )
+    public float[] aiAttackWeightsBySlot = new float[3];
+    public float[] aiDefenseWeightsBySlot = new float[3];
+    public float[] aiHealWeightsBySlot = new float[3];
+
+    // 25/12/21 추가 : 전투 중 플레이 기록 저장소(씬 오브젝트)
+    public PlayRecord playRecord;
+    
+    // 25/12/21 추가 : 슬롯별 AI 행동 가중치 조회 헬퍼
+    public float GetAiAttackWeight(int slotIndex)
+    {
+        if (aiAttackWeightsBySlot != null && aiAttackWeightsBySlot.Length == 3)
+            return aiAttackWeightsBySlot[slotIndex];
+        return aiAttackWeight; // 기존 단일 가중치 fallback
+    }
+
+    public float GetAiDefenseWeight(int slotIndex)
+    {
+        if (aiDefenseWeightsBySlot != null && aiDefenseWeightsBySlot.Length == 3)
+            return aiDefenseWeightsBySlot[slotIndex];
+        return aiDefenseWeight;
+    }
+
+    public float GetAiHealWeight(int slotIndex)
+    {
+        if (aiHealWeightsBySlot != null && aiHealWeightsBySlot.Length == 3)
+            return aiHealWeightsBySlot[slotIndex];
+        return aiHealWeight;
+    }
 }
 
 /// <summary>
