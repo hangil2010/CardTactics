@@ -4,7 +4,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 전투 중 Player/Enemy의 행동 기록을 슬롯(1~3) 단위로 저장한다
 // 생성 일자 : 25/12/21
-// 최근 수정 일자 : 25/12/21
+// 최근 수정 일자 : 25/12/22
 // ==================================================================
 
 public class PlayRecord : MonoBehaviour
@@ -93,9 +93,6 @@ public class PlayRecord : MonoBehaviour
         attackRate = _typeCounts[a, slotIndex, 0] / (float)n;
         defenseRate = _typeCounts[a, slotIndex, 1] / (float)n;
         healRate = _typeCounts[a, slotIndex, 2] / (float)n;
-
-        Debug.Log($"[PlayRecord] {actor} Slot {slotIndex + 1} Tendency - " +
-            $"Attack: {attackRate:P0}, Defense: {defenseRate:P0}, Heal: {healRate:P0}");
     }
 
     /// <summary>
@@ -112,6 +109,25 @@ public class PlayRecord : MonoBehaviour
             ActionCardData.ActionType.Heal => 2,
             _ => -1
         };
+    }
+
+    /// <summary>
+    /// 해당 슬롯에 최소 샘플 개수가 있는지 확인한다.
+    /// </summary>
+    public bool HasEnoughSamples(Actor actor, int slotIndex, int minSamples)
+    {
+        int a = (int)actor;
+        if (slotIndex < 0 || slotIndex >= 3) return false;
+        return _count[a, slotIndex] >= minSamples;
+    }
+    /// <summary>
+    /// 해당 슬롯의 샘플 개수를 반환한다.
+    /// </summary>
+    public int GetSampleCount(Actor actor, int slotIndex)
+    {
+        int a = (int)actor;
+        if (slotIndex < 0 || slotIndex >= 3) return 0;
+        return _count[a, slotIndex];
     }
 
     #region Log Building
