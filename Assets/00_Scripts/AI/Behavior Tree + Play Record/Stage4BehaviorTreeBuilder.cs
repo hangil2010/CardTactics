@@ -10,7 +10,8 @@ public static class Stage4BehaviorTreeBuilder
 {
     // 튜닝 파라미터
     private const int MinSamplesPerSlot = 5;
-    private const float DominantThreshold = 0.6f;
+    // 슬롯별 우세 판단 임계값
+    public const float DominantThreshold = 0.6f;
 
     // 우세한 플레이 경향성 유형
     private enum Dominant
