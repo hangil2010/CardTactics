@@ -1796,7 +1796,7 @@ MonoBehaviour:
   enemyCharactor: {fileID: 237151845}
   playerCharactorUI: {fileID: 8352818616660207459}
   enemyCharactorUI: {fileID: 1239367056}
-  defaultAiWeights: {fileID: 11400000, guid: 34ca9129fead6d04aa9efa157bc0cd71, type: 2}
+  defaultAiWeights: {fileID: 11400000, guid: 8c3e279e70e88224a83bf8ad54f02476, type: 2}
   aiWeightOverride: {fileID: 942760287}
   playRecord: {fileID: 476966048}
 --- !u!4 &1565185801
@@ -2469,6 +2469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourcesPath: Card
+  cardDataLabel: card_data
   allCards: []
   attackCards: []
   defenseCards: []
