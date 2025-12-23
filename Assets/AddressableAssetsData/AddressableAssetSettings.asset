@@ -35,15 +35,16 @@ MonoBehaviour:
   m_CheckForContentUpdateRestrictionsOption: 0
   m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id: 
+    m_Id: 54bb985cb06eb8142bbf5bb6afddf4e5
   m_RemoteCatalogLoadPath:
-    m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+    m_Id: 7455ab61b9b2aae48a39286720fcebcd
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: de03c38cdba549f49970210d84e911b0, type: 2}
   - {fileID: 11400000, guid: b07491d40ce75eb448b11efed2155af8, type: 2}
   - {fileID: 11400000, guid: d58d6d78a7c33464e9719a8c55665b5f, type: 2}
   m_BuildSettings:
@@ -87,6 +88,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - card_data
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 8d92e9c828fbf1e45b6636d5263e709f, type: 2}
