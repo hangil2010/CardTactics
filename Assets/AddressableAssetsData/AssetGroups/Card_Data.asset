@@ -20,12 +20,8 @@ MonoBehaviour:
   - m_GUID: 2ec8bd53636bc2d488b49e3fcb29416f
     m_Address: Card Effect Data/Defense Data
     m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 34ca9129fead6d04aa9efa157bc0cd71
-    m_Address: Default AI Weight/Attack, Defense Only
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - card_data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3ce54070f70fff34885d6bf228b1ceaf
     m_Address: Card/Defense
@@ -36,17 +32,20 @@ MonoBehaviour:
   - m_GUID: 3ee3b2f2690994c4692657df4fcf499e
     m_Address: Card Effect Data/Heal Data
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - card_data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 506e2cad91d765244a599e4d03ab9bc1
     m_Address: Card Effect Data/Attack Data
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - card_data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c3e279e70e88224a83bf8ad54f02476
     m_Address: Default AI Weight/Attack, Defense, Heal
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - card_data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d30c958649c164b86a60ad791aa19a
     m_Address: Card/Heal
