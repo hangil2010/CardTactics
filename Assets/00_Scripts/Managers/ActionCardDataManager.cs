@@ -46,8 +46,11 @@ public class ActionCardDataManager : MonoBehaviour
     // [25/12/23] 추가 : Addressables 비동기 로드 핸들
     private AsyncOperationHandle<IList<ActionCardData>> _loadHandle;
 
+    // [25/12/23] 추가 : 카드 로드 완료 이벤트
+    public event Action OnCardsLoaded;
     // 카드 데이터를 가장 우선 불러오기 위해 Awake 대신 OnEnable 사용
-    private void OnEnable()
+
+    private void Awake()
     {
         // 싱글톤 초기화
         if (_instance != null && _instance != this)
@@ -58,12 +61,23 @@ public class ActionCardDataManager : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
-
+    }
+    private void OnEnable()
+    {
+        // 중복 로딩 방지
+        if (IsReady) return;
+        // [25/12/23] 수정 : Addressables 기반 카드 데이터 로드 시작
         StartCoroutine(LoadAllCardsFromAddressables());
+
         // [25/12/23] 수정 : Resources 로드 방식 주석 처리
         //LoadAllCardsFromResources();
     }
 
+    private void OnDisable()
+    {
+        if (_loadHandle.IsValid())
+            Addressables.Release(_loadHandle);
+    }
     /// <summary>
     /// Resources/Card 경로에서 모든 ActionCardData를 로드하고, 타입별로 분류한다.
     /// </summary>
@@ -119,6 +133,10 @@ public class ActionCardDataManager : MonoBehaviour
 
         IsReady = true;
 
+        // [25/12/23] 추가 : 카드 로드 완료 이벤트 호출
+        // Issue#15의 수정 사항
+        OnCardsLoaded?.Invoke();
+
         Debug.Log($"[ActionCardDataManager] Loaded Cards(Addressables): Total={allCards.Count}, " +
                   $"Attack={attackCards.Count}, Defense={defenseCards.Count}, Heal={healCards.Count}");
     }
@@ -126,11 +144,7 @@ public class ActionCardDataManager : MonoBehaviour
     /// <summary>
     /// 비활성화 시 Addressables 로드 핸들 해제.
     /// </summary>
-    private void OnDisable()
-    {
-        if (_loadHandle.IsValid())
-            Addressables.Release(_loadHandle);
-    }
+    
 
     /// <summary>
     /// 지정한 타입(공격/방어)의 첫 번째 카드를 반환한다. 없으면 null.
