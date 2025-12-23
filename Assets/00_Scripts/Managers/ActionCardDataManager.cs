@@ -32,6 +32,9 @@ public class ActionCardDataManager : MonoBehaviour
     // [25/12/19] 추가 : 회복 카드 리스트
     [SerializeField] private List<ActionCardData> healCards = new List<ActionCardData>();
 
+    [Header("Resources / Addressables 스위치")]
+    [SerializeField] private LoadMethod loadMethod = LoadMethod.Addressables;
+
     /// <summary>모든 카드 목록(ReadOnly).</summary>
     public IReadOnlyList<ActionCardData> AllCards => allCards;
     /// <summary>공격 카드 목록(ReadOnly).</summary>
@@ -66,8 +69,20 @@ public class ActionCardDataManager : MonoBehaviour
     {
         // 중복 로딩 방지
         if (IsReady) return;
+
+        // 로드 방식에 따른 처리 분기
+        if (loadMethod == LoadMethod.Addressables)
+        {
+            // [25/12/23] 수정 : Addressables 기반 카드 데이터 로드 시작
+            StartCoroutine(LoadAllCardsFromAddressables());
+            return;
+        }
+        else
+        {
+            LoadAllCardsFromResources();
+        }
         // [25/12/23] 수정 : Addressables 기반 카드 데이터 로드 시작
-        StartCoroutine(LoadAllCardsFromAddressables());
+        //StartCoroutine(LoadAllCardsFromAddressables());
 
         // [25/12/23] 수정 : Resources 로드 방식 주석 처리
         //LoadAllCardsFromResources();
@@ -81,15 +96,18 @@ public class ActionCardDataManager : MonoBehaviour
     /// <summary>
     /// Resources/Card 경로에서 모든 ActionCardData를 로드하고, 타입별로 분류한다.
     /// </summary>
-    // [25/12/23] Obsolete 처리
-    [Obsolete("Resources 시스템에서 Addressable 시스템으로 이동")]
     private void LoadAllCardsFromResources()
     {
+        string TAG = "ActionCardData(Resources)";
+
         allCards.Clear();
         attackCards.Clear();
         defenseCards.Clear();
         // [25/12/19] 추가 : 회복 카드 리스트 초기화
         healCards.Clear();
+
+        // 벤치마크 시작 로그
+        BenchmarkLogger.Begin(TAG);
 
         var loadedCards = Resources.LoadAll<ActionCardData>(resourcesPath);
         allCards.AddRange(loadedCards);
@@ -101,6 +119,13 @@ public class ActionCardDataManager : MonoBehaviour
         Debug.Log($"[ActionCardDataManager] Loaded Cards(Resources): Total={allCards.Count}, " +
                   $"Attack={attackCards.Count}, Defense={DefenseCards.Count}" +
                   $", Heal={healCards.Count}");
+
+        IsReady = true;
+
+        OnCardsLoaded?.Invoke();
+
+        // 벤치마크 종료 로그
+        BenchmarkLogger.End(TAG);
     }
 
     /// <summary>
@@ -109,12 +134,17 @@ public class ActionCardDataManager : MonoBehaviour
     // [25/12/23] 추가 : Addressables 시스템 기반 로드
     private IEnumerator LoadAllCardsFromAddressables()
     {
+        string TAG = "ActionCardData(Addressables)";
+
         IsReady = false;
 
         allCards.Clear();
         attackCards.Clear();
         defenseCards.Clear();
         healCards.Clear();
+
+        // 벤치마크 시작 로그
+        BenchmarkLogger.Begin(TAG);
 
         _loadHandle = Addressables.LoadAssetsAsync<ActionCardData>(cardDataLabel, null);
         yield return _loadHandle;
@@ -139,6 +169,9 @@ public class ActionCardDataManager : MonoBehaviour
 
         Debug.Log($"[ActionCardDataManager] Loaded Cards(Addressables): Total={allCards.Count}, " +
                   $"Attack={attackCards.Count}, Defense={defenseCards.Count}, Heal={healCards.Count}");
+
+        // 벤치마크 종료 로그
+        BenchmarkLogger.End(TAG);
     }
 
     /// <summary>
@@ -164,4 +197,10 @@ public class ActionCardDataManager : MonoBehaviour
                 return null;
         }
     }
+}
+
+public enum LoadMethod
+{
+    Resources,
+    Addressables
 }
