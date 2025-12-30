@@ -68,7 +68,7 @@ public class TurnController : MonoBehaviour
 
         _context = new TurnContext
         {
-            turnStateText = turnStateText,
+            turnCountText = turnStateText,
             turnEndButton = turnEndButton,
 
             // [25/12/15] 수정: 전투 사이클에서 사용할 참조 주입
@@ -91,6 +91,9 @@ public class TurnController : MonoBehaviour
 
             // 25/12/21 추가 : 플레이 기록 저장소 주입
             playRecord = playRecord,
+
+            // 25/12/30 추가 : 현재 턴 카운트 초기화
+            currentTurnCount = 1,
         };
 
         _machine = new TurnStateMachine();
