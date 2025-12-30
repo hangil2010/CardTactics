@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 34ca9129fead6d04aa9efa157bc0cd71
-    m_Address: Default AI Weight/Attack, Defense Only
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3ce54070f70fff34885d6bf228b1ceaf
     m_Address: Card/Defense
     m_ReadOnly: 0

@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01_Scenes/TurnSystemScene.unity
+    path: Assets/01_Scenes/GameUIScene.unity
     guid: a93a18cf89771fc4aaf17f384f85a1c9
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 78bb4ce34ca373b44b0b968cd53d5d62,

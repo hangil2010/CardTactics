@@ -9,7 +9,7 @@ using UnityEngine;
 public static class Stage4BehaviorTreeBuilder
 {
     // 튜닝 파라미터
-    private const int MinSamplesPerSlot = 5;
+    private const int MinSamplesPerSlot = 4;
     // 슬롯별 우세 판단 임계값
     public const float DominantThreshold = 0.6f;
 
