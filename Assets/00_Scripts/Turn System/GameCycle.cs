@@ -21,6 +21,8 @@ public class PlayerTurnStartState : TurnStateBase
     public override void Enter()
     {
         ctx.turnEndButton.interactable = false;
+        // [25/12/30] 추가 : 턴 카운트 UI 갱신
+        ctx.turnCountText.text = $"Turn {ctx.currentTurnCount}";
         Debug.Log("플레이어 턴 시작");
         machine.ChangeState(new PlayerDecideActionState(ctx, machine));
     }
@@ -299,6 +301,9 @@ public class AllCycleEndState : TurnStateBase
     {
         Debug.Log("===============모든 사이클 완료===============");
         ctx.selectedAreaManager?.ResetSelection();
+        // [25/12/30] 추가 : 턴 카운트 증가 및 UI 갱신
+        ctx.currentTurnCount++;
+        ctx.turnCountText.text = $"Turn {ctx.currentTurnCount}";
         Debug.Log("다음 턴 : 플레이어 턴 시작");
         machine.ChangeState(new PlayerTurnStartState(ctx, machine));
     }
