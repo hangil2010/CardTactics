@@ -33,6 +33,12 @@ public class BattleLoopState : TurnStateBase
     {
         var playerCards = ctx.selectedAreaManager != null ? ctx.selectedAreaManager.SelectedCards : null;
 
+        if(playerCards == null && (ctx.aiPlannedCards == null || ctx.aiPlannedCards.Length == 0))
+        {
+            Debug.LogWarning("전투 사이클 실행 불가: 플레이어 및 AI 카드 없음");
+            yield break;
+        }
+
         for (int i = 0; i < 3; i++)
         {
             // cycle 플래그 초기화
@@ -44,23 +50,22 @@ public class BattleLoopState : TurnStateBase
             // 25/12/31 추가: 전투 사이클 텍스트 업데이트
             ctx.battleCycleText.text = $"Battle Cycle {i + 1} / 3";
 
-            var pCard = (playerCards != null && i < playerCards.Count) ? playerCards[i] : null;
-            var aCard = (ctx.aiPlannedCards != null && i < ctx.aiPlannedCards.Length) ? ctx.aiPlannedCards[i] : null;
+            var pCard = (i < playerCards.Count) ? playerCards[i] : null;
+            var aCard = (i < ctx.aiPlannedCards.Length) ? ctx.aiPlannedCards[i] : null;
 
-            Debug.Log($"[Cycle {i + 1}] Player 행동: {(pCard != null ? pCard.CardName : "None")}");
-            Debug.Log($"[Cycle {i + 1}] AI 행동: {(aCard != null ? aCard.CardName : "None")}");
+            Debug.Log($"[Cycle {i + 1}] Player 행동: {pCard.CardName}");
+            Debug.Log($"[Cycle {i + 1}] AI 행동: {aCard.CardName}");
 
-
-            if (pCard != null)
-                yield return ctx.playerAnim.PlayAndWaitIdle(ToAnimType(pCard.Type));
-
-            if (aCard != null)
-                yield return ctx.enemyAnim.PlayAndWaitIdle(ToAnimType(aCard.Type));
-
+            // 1) 애니메이션 재생 및 대기
+            yield return ctx.playerAnim.PlayAndWaitIdle(ToAnimType(pCard.Type));
+            yield return ctx.enemyAnim.PlayAndWaitIdle(ToAnimType(aCard.Type));
 
             // 2) 기록 저장
-            if (pCard != null && ctx.playRecord != null) ctx.playRecord.RecordPlayer(i, pCard.Type);
-            if (aCard != null && ctx.playRecord != null) ctx.playRecord.RecordEnemy(i, aCard.Type);
+            if (ctx.playRecord != null)
+            {
+                ctx.playRecord.RecordPlayer(i, pCard.Type);
+                ctx.playRecord.RecordEnemy(i, aCard.Type);
+            }
 
             // 3) 먼저 방어/회복 같은 상태 세팅을 먼저 처리
             if (pCard.EffectData.Type != ActionCardEffectData.EffectType.Attack)
@@ -121,7 +126,7 @@ public class BattleLoopState : TurnStateBase
 
     private void ApplyHealDelta(CharactorData unit, bool opponentUsedAttack)
     {
-        int delta = opponentUsedAttack ? -2 : +2;
+        int delta = opponentUsedAttack ? -1 : +2;
         unit.SetHealth(Mathf.Max(0, unit.GetHealth() + delta));
         Debug.Log($"[Heal] {unit.name} delta={delta}");
     }
