@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // ==================================================================
@@ -19,80 +20,79 @@ public class BattleLoopState : TurnStateBase
     {
         Debug.Log("전투 사이클 시작 (최대 3회)");
         // [25/12/15] 추가: Player→Resolve→AI→Resolve를 최대 3회 실행
-        ExecuteLoop();
+        //ExecuteLoop();
+        // [25/12/31] 수정: Animation Trigger 기반 코루틴으로 변경
+        ctx.coroutineRunner.StartCoroutine(ExecuteLoopCo());
     }
 
     /// <summary>
-    /// 전투 사이클 실행, Player→Resolve→AI→Resolve를 최대 3회 실행
+    /// 전투 사이클 실행 코루틴, Player→Resolve→AI→Resolve를 최대 3회 실행
     /// </summary>
-    // [25/12/15] 수정: CharactorData 기반 전투 사이클 적용
-    private void ExecuteLoop()
+    // [25/12/31] 추가: Animation Trigger 기반 코루틴으로 변경
+    private IEnumerator ExecuteLoopCo()
     {
         var playerCards = ctx.selectedAreaManager != null ? ctx.selectedAreaManager.SelectedCards : null;
 
         for (int i = 0; i < 3; i++)
         {
-            // Reset guarding state at the start of each cycle
+            // cycle 플래그 초기화
             ctx.playerUsedHealThisCycle = false;
             ctx.enemyUsedHealThisCycle = false;
             ctx.playerUsedAttackThisCycle = false;
             ctx.enemyUsedAttackThisCycle = false;
 
-            // ---------- Player Action ----------
+            // 25/12/31 추가: 전투 사이클 텍스트 업데이트
+            ctx.battleCycleText.text = $"Battle Cycle {i + 1} / 3";
+
             var pCard = (playerCards != null && i < playerCards.Count) ? playerCards[i] : null;
-            Debug.Log($"[Cycle {i + 1}] Player 행동: {(pCard != null ? pCard.CardName : "None")}");
-
-            // [25/12/21] 슬롯별 기록 저장 (Player)
-            if (pCard != null && ctx.playRecord != null)
-                ctx.playRecord.RecordPlayer(i, pCard.Type);
-
-            if (pCard != null)
-                ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor,ctx ,isPlayer : true);
-
-            Debug.Log($"[Cycle {i + 1}] Resolve(Player) => " +
-                    $"P_HP:{ctx.playerCharactor.GetHealth()}, P_Guard:{ctx.playerCharactor.GetIsGuarding()} / " +
-                    $"E_HP:{ctx.enemyCharactor.GetHealth()}, E_Guard:{ctx.enemyCharactor.GetIsGuarding()}");
-
-            if (IsBattleEnded())
-            {
-                machine.ChangeState(new BattleEndState(ctx, machine));
-                return;
-            }
-
-            // ---------- AI Action ----------
             var aCard = (ctx.aiPlannedCards != null && i < ctx.aiPlannedCards.Length) ? ctx.aiPlannedCards[i] : null;
+
+            Debug.Log($"[Cycle {i + 1}] Player 행동: {(pCard != null ? pCard.CardName : "None")}");
             Debug.Log($"[Cycle {i + 1}] AI 행동: {(aCard != null ? aCard.CardName : "None")}");
 
-            // [25/12/21] 슬롯별 기록 저장 (Enemy)
-            if (aCard != null && ctx.playRecord != null)
-                ctx.playRecord.RecordEnemy(i, aCard.Type);
+
+            if (pCard != null)
+                yield return ctx.playerAnim.PlayAndWaitIdle(ToAnimType(pCard.Type));
 
             if (aCard != null)
-                ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor,ctx ,isPlayer : false);
+                yield return ctx.enemyAnim.PlayAndWaitIdle(ToAnimType(aCard.Type));
 
-            Debug.Log($"[Cycle {i + 1}] Resolve(AI) => " +
-                    $"P_HP:{ctx.playerCharactor.GetHealth()}, P_Guard:{ctx.playerCharactor.GetIsGuarding()} / " +
-                    $"E_HP:{ctx.enemyCharactor.GetHealth()}, E_Guard:{ctx.enemyCharactor.GetIsGuarding()}");
 
-            // [25/12/19] 추가 : 사이클 종료 시 회복 효과 적용
+            // 2) 기록 저장
+            if (pCard != null && ctx.playRecord != null) ctx.playRecord.RecordPlayer(i, pCard.Type);
+            if (aCard != null && ctx.playRecord != null) ctx.playRecord.RecordEnemy(i, aCard.Type);
+
+            // 3) 효과 적용(Resolve) - 기존과 동일
+            if (pCard != null) ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor, ctx, isPlayer: true);
+            if (aCard != null) ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor, ctx, isPlayer: false);
+
+            // 4) 사이클 종료 처리(Heal/UI/종료)
             ApplyHealAtEndOfCycle();
-
-            // [25/12/16] 추가 : 캐릭터 UI 업데이트를 여기에서 수행
-            // 전투 사이클 내에서 체력 변화가 있을 수 있으므로 매 사이클마다 UI를 갱신
             ctx.playerCharactorUI.UpdateHealthUI();
             ctx.enemyCharactorUI.UpdateHealthUI();
 
             if (IsBattleEnded())
             {
                 machine.ChangeState(new BattleEndState(ctx, machine));
-                return;
+                yield break;
             }
         }
 
-        
-
         Debug.Log("전투 사이클 종료");
+        // 25/12/31 추가: 전투 사이클 텍스트 초기화
+        ctx.battleCycleText.text = $"Battle Cycle 1 / 3";
         machine.ChangeState(new AllCycleEndState(ctx, machine));
+    }
+
+    private CardActionType ToAnimType(ActionCardData.ActionType type)
+    {
+        return type switch
+        {
+            ActionCardData.ActionType.Attack => CardActionType.Attack,
+            ActionCardData.ActionType.Defense => CardActionType.Defense,
+            ActionCardData.ActionType.Heal => CardActionType.Heal,
+            _ => CardActionType.Attack
+        };
     }
 
     private bool IsBattleEnded()
