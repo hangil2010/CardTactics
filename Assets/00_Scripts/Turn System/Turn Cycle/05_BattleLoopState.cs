@@ -32,7 +32,8 @@ public class BattleLoopState : TurnStateBase
     private IEnumerator ExecuteLoopCo()
     {
         var playerCards = ctx.selectedAreaManager != null ? ctx.selectedAreaManager.SelectedCards : null;
-
+        
+        // [25/12/31] 추가: 플레이어 및 AI 카드 유효성 검사, 기존에 매번 체크하던 것을 한번에 처리
         if(playerCards == null && (ctx.aiPlannedCards == null || ctx.aiPlannedCards.Length == 0))
         {
             Debug.LogWarning("전투 사이클 실행 불가: 플레이어 및 AI 카드 없음");
