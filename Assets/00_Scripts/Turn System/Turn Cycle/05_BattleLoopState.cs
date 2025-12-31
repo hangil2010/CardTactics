@@ -62,11 +62,21 @@ public class BattleLoopState : TurnStateBase
             if (pCard != null && ctx.playRecord != null) ctx.playRecord.RecordPlayer(i, pCard.Type);
             if (aCard != null && ctx.playRecord != null) ctx.playRecord.RecordEnemy(i, aCard.Type);
 
-            // 3) 효과 적용(Resolve) - 기존과 동일
-            if (pCard != null) ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor, ctx, isPlayer: true);
-            if (aCard != null) ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor, ctx, isPlayer: false);
+            // 3) 먼저 방어/회복 같은 상태 세팅을 먼저 처리
+            if (pCard.EffectData.Type != ActionCardEffectData.EffectType.Attack)
+                ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor, ctx, isPlayer: true);
 
-            // 4) 사이클 종료 처리(Heal/UI/종료)
+            if (aCard.EffectData.Type != ActionCardEffectData.EffectType.Attack)
+                ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor, ctx, isPlayer: false);
+
+            // 4) 그 다음 공격을 처리
+            if (pCard.EffectData.Type == ActionCardEffectData.EffectType.Attack)
+                ActionCardExecutor.Execute(pCard, ctx.playerCharactor, ctx.enemyCharactor, ctx, isPlayer: true);
+
+            if (aCard.EffectData.Type == ActionCardEffectData.EffectType.Attack)
+                ActionCardExecutor.Execute(aCard, ctx.enemyCharactor, ctx.playerCharactor, ctx, isPlayer: false);
+
+            // 5) 사이클 종료 처리(Heal/UI/종료)
             ApplyHealAtEndOfCycle();
             ctx.playerCharactorUI.UpdateHealthUI();
             ctx.enemyCharactorUI.UpdateHealthUI();
