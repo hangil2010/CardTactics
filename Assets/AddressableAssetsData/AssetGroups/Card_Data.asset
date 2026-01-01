@@ -41,7 +41,8 @@ MonoBehaviour:
   - m_GUID: 8c3e279e70e88224a83bf8ad54f02476
     m_Address: Default AI Weight/Attack, Defense, Heal
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - card_data
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 98d30c958649c164b86a60ad791aa19a
     m_Address: Card/Heal
