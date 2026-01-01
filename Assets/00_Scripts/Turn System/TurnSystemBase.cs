@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/30
+// 최근 수정 일자 : 25/12/31
 // ==================================================================
 
 /// <summary>
@@ -87,6 +87,13 @@ public class TurnContext
             return aiHealWeightsBySlot[slotIndex];
         return aiHealWeight;
     }
+
+    // 25/12/31 추가 : 애니메이터 트리거 및 코루틴 실행기 참조
+    public MonoBehaviour coroutineRunner;
+    public AnimatorTriggerRunner playerAnim;
+    public AnimatorTriggerRunner enemyAnim;
+
+    public TMP_Text battleCycleText;
 }
 
 /// <summary>
