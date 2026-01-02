@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/31
+// 최근 수정 일자 : 26/01/02
 // ==================================================================
 
 /// <summary>
@@ -66,6 +66,9 @@ public class TurnContext
     // 25/12/30 추가 : 몇 턴째인지 추적 밑 Text 노출용
     public int currentTurnCount;
 
+    // 26/01/02 추가 : 게임 오버 이펙트 추가
+    public GameOverEffect gameOverEffect;
+    
     // 25/12/21 추가 : 슬롯별 AI 행동 가중치 조회 헬퍼
     public float GetAiAttackWeight(int slotIndex)
     {

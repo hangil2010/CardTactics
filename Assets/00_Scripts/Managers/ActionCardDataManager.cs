@@ -135,6 +135,7 @@ public class ActionCardDataManager : MonoBehaviour
 
         // [25/12/23] 추가 : 카드 로드 완료 이벤트 호출
         // Issue#15의 수정 사항
+        Debug.Log("[ActionCardDataManager] OnCardsLoaded 이벤트 호출");
         OnCardsLoaded?.Invoke();
 
         Debug.Log($"[ActionCardDataManager] Loaded Cards(Addressables): Total={allCards.Count}, " +

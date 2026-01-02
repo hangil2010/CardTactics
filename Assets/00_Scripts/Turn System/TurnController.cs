@@ -5,7 +5,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : UI 입력과 상태 머신을 연결하여 턴 진행을 제어하는 프레젠테이션 레이어 컨트롤러
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/31
+// 최근 수정 일자 : 26/01/02
 // ==================================================================
 
 /// <summary>
@@ -47,6 +47,10 @@ public class TurnController : MonoBehaviour
     // 25/12/31 추가 : 전투 사이클 텍스트 참조
     [Header("Battle Cycle UI")]
     [SerializeField] private TMP_Text battleCycleText;
+
+    [Header("Game Over Effect")]
+    [SerializeField] private GameOverEffect gameOverEffect;
+
     #endregion
 
     private TurnStateMachine _machine;
@@ -107,8 +111,12 @@ public class TurnController : MonoBehaviour
             coroutineRunner = this,
             playerAnim = playerAnim,
             enemyAnim = enemyAnim,
+
             // 25/12/31 추가 : 전투 사이클 텍스트 주입
             battleCycleText = battleCycleText,
+
+            // 26/01/02 추가 : 게임 오버 이펙트 주입
+            gameOverEffect = gameOverEffect,
         };
 
         _machine = new TurnStateMachine();
