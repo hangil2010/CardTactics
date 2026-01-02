@@ -24,17 +24,28 @@ public class BattleEndState : TurnStateBase
         // [25/12/16] 추가 : 캐릭터 UI 업데이트를 여기에서 수행
         ctx.playerCharactorUI.UpdateHealthUI();
         ctx.enemyCharactorUI.UpdateHealthUI();
+        
+        // [26/01/02] 추가 : 전투 종료 시 결과 계산
+        BattleResult result =
+        (pHp <= 0 && eHp <= 0) ? BattleResult.Draw :
+        (pHp <= 0) ? BattleResult.Lose :
+        (eHp <= 0) ? BattleResult.Win  :
+        BattleResult.Draw; // 안전 처리
 
-        string result =
-            pHp <= 0 && eHp <= 0 ? "무승부" :
-            pHp <= 0 ? "패배" :
-            "승리";
-
-        Debug.Log($"전투 종료: {result}");
         // TODO: 결과 UI 표시 / 재시작 / 다음 씬 등
 
         // [26/01/02] 추가 : 우선 결과와 무관하게 Game Over 연출
         if (ctx.gameOverEffect != null)
-            ctx.gameOverEffect.PlayGameOverFadeIn();
+            ctx.gameOverEffect.PlayGameOverFadeIn(result);
     }
+}
+
+/// <summary>
+/// 전투 결과 목록, 승리/무승부/패배
+/// </summary>
+public enum BattleResult
+{
+    Win,
+    Draw,
+    Lose
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,8 @@ public class GameOverEffect : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator gameOverAnimator;
 
+    [Header("Battle Result Text")]
+    [SerializeField] private TMP_Text battleResultText;
     private bool _played;
 
     private void Awake()
@@ -34,10 +37,12 @@ public class GameOverEffect : MonoBehaviour
     /// <summary>
     /// 전투 종료 시 호출: Canvas 활성화 후 FadeIn 애니메이션 재생
     /// </summary>
-    public void PlayGameOverFadeIn()
+    public void PlayGameOverFadeIn(BattleResult result)
     {
         if (_played) return;
         _played = true;
+
+        battleResultText.text = GetResultText(result);
 
         if (gameOverCanvasRoot != null)
         {
@@ -52,5 +57,16 @@ public class GameOverEffect : MonoBehaviour
         }
 
         gameOverAnimator.enabled = true;
+    }
+
+    private string GetResultText(BattleResult result)
+    {
+        switch (result)
+        {
+            case BattleResult.Win:  return "You Win!";
+            case BattleResult.Lose: return "You Lose...";
+            case BattleResult.Draw: return "It's a Draw...";
+            default:                return string.Empty;
+        }
     }
 }
