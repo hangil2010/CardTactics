@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 드래그된 카드를 드롭받아, 선택 영역에 색을 적용하는 슬롯
 // 생성 일자 : 25/12/09
-// 최근 수정 일자 : 25/12/16
+// 최근 수정 일자 : 25/12/30
 // ==================================================================
 
 public class SelectedAreaSlot : MonoBehaviour, IDropHandler
@@ -54,15 +54,12 @@ public class SelectedAreaSlot : MonoBehaviour, IDropHandler
         }
 
         // [25/12/10] 수정: 색 적용 후 선택 순서 index를 받아 카드 등록하도록 확장
-        if (manager.TryApplyNextColor(slotImage, out int index))
+        // [25/12/30] 수정 : 카드 타입에 따른 색상 적용 메서드로 전환
+        if (manager.TryRegisterCardAndApplyColor(cardData, slotImage, out int index))
         {
             _isSelected = true;
             _selectedCard = cardData;
 
-            // 매니저에 카드 데이터 등록
-            manager.RegisterSelectedCard(index, _selectedCard);
-
-            // [25/12/10] 수정: 슬롯 UI에 선택된 카드 데이터 표시
             if (slotCardView != null)
             {
                 slotCardView.SetData(_selectedCard);

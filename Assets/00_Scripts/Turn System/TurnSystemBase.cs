@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // ==================================================================
 // 목적 : 턴 진행에 필요한 컨텍스트(TurnContext)와 턴 상태 기초 클래스, 상태 머신의 기반 구조를 제공
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/21
+// 최근 수정 일자 : 26/01/02
 // ==================================================================
 
 /// <summary>
@@ -17,7 +17,7 @@ using UnityEngine.UI;
 public class TurnContext
 {
     /// <summary>현재 턴 상태를 표시하는 텍스트 UI. </summary>
-    public TMP_Text turnStateText;
+    public TMP_Text turnCountText;
 
     /// <summary>플레이어 턴 종료 버튼.</summary>
     public Button turnEndButton;
@@ -63,6 +63,12 @@ public class TurnContext
     // 25/12/21 추가 : 전투 중 플레이 기록 저장소(씬 오브젝트)
     public PlayRecord playRecord;
     
+    // 25/12/30 추가 : 몇 턴째인지 추적 밑 Text 노출용
+    public int currentTurnCount;
+
+    // 26/01/02 추가 : 게임 오버 이펙트 추가
+    public GameOverEffect gameOverEffect;
+    
     // 25/12/21 추가 : 슬롯별 AI 행동 가중치 조회 헬퍼
     public float GetAiAttackWeight(int slotIndex)
     {
@@ -84,6 +90,13 @@ public class TurnContext
             return aiHealWeightsBySlot[slotIndex];
         return aiHealWeight;
     }
+
+    // 25/12/31 추가 : 애니메이터 트리거 및 코루틴 실행기 참조
+    public MonoBehaviour coroutineRunner;
+    public AnimatorTriggerRunner playerAnim;
+    public AnimatorTriggerRunner enemyAnim;
+
+    public TMP_Text battleCycleText;
 }
 
 /// <summary>
