@@ -3,7 +3,7 @@ using UnityEngine;
 // ==================================================================
 // 목적 : 전투 사이 종료 턴의 진행 흐름을 관리하는 클래스
 // 생성 일자 : 25/12/08
-// 최근 수정 일자 : 25/12/31
+// 최근 수정 일자 : 26/01/02
 // ==================================================================
 
 /// <summary>
@@ -33,5 +33,8 @@ public class BattleEndState : TurnStateBase
         Debug.Log($"전투 종료: {result}");
         // TODO: 결과 UI 표시 / 재시작 / 다음 씬 등
 
+        // [26/01/02] 추가 : 우선 결과와 무관하게 Game Over 연출
+        if (ctx.gameOverEffect != null)
+            ctx.gameOverEffect.PlayGameOverFadeIn();
     }
 }

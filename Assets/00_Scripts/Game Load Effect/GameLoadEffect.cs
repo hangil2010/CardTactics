@@ -14,9 +14,6 @@ public class GameLoadEffect : MonoBehaviour
     [Header("Animator")]
     [SerializeField] private Animator loadingAnimator;
 
-    [Tooltip("Animator 안의 State 이름(스크린샷 기준: Fade Out)")]
-    [SerializeField] private string fadeOutStateName = "Fade Out";
-
     [Header("After FadeOut")]
     [SerializeField] private bool disableRootAfterFadeOut = true;
     [SerializeField] private bool destroyRootAfterFadeOut = false;
@@ -81,13 +78,10 @@ public class GameLoadEffect : MonoBehaviour
         // 1) Animator 켜기
         loadingAnimator.enabled = true;
 
-        // 2) FadeOut 상태로 강제 재생(0초부터)
-        loadingAnimator.Play(fadeOutStateName, 0, 0f);
-
-        // 3) 상태 정보 갱신을 위해 1프레임 대기
+        // 2) 상태 정보 갱신을 위해 1프레임 대기
         yield return null;
 
-        // 4) 현재 state 길이만큼 대기
+        // 3) 현재 state 길이만큼 대기
         var stateInfo = loadingAnimator.GetCurrentAnimatorStateInfo(0);
 
         float wait = stateInfo.length > 0.01f ? stateInfo.length : 2f;
